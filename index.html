@@ -799,19 +799,39 @@
   toggleAttendance();
 
   /* ── Submit ── */
-  function submitRsvp(e) {
+  async function submitRsvp(e) {
     e.preventDefault();
-    const fname    = document.getElementById('fname').value.trim();
-    const lname    = document.getElementById('lname').value.trim();
-    const email    = document.getElementById('email').value.trim();
-    const phone    = document.getElementById('phone').value.trim();
+    const fname     = document.getElementById('fname').value.trim();
+    const lname     = document.getElementById('lname').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const phone     = document.getElementById('phone').value.trim();
     const attending = attYes.checked;
-    const note     = document.getElementById('note').value.trim();
+    const note      = document.getElementById('note').value.trim();
 
-    // Log (replace with your backend/Formspree/Airtable integration)
-    console.log('RSVP:', { name: fname+' '+lname, email, phone, attending, note, ts: new Date().toISOString() });
+    const submitBtn = document.querySelector('.btn-submit');
+    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
 
-    // Show success
+    const payload = {
+      name: fname + ' ' + lname,
+      email,
+      phone,
+      attending,
+      message: note
+    };
+
+    try {
+      await fetch('https://script.google.com/macros/s/AKfycbw68kkvvH6oaSbDVsDm2x71-AHvVHwDCZOQb343Uf8MJtBIQlTJmq6FnOhRkvPaMwBA/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error('Submission error:', err);
+    }
+
+    // Show success regardless (no-cors means we can't read the response)
     document.getElementById('rsvpForm').classList.add('hide');
     const msg = document.getElementById('successMsg');
     msg.classList.add('show');
