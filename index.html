@@ -839,7 +839,11 @@
     if (attending) {
       document.getElementById('successTitle').textContent = 'We\'ll see you there! 🌸';
       document.getElementById('successText').innerHTML =
-        `Thank you, <strong>${fname}</strong>! We're so glad you'll be celebrating with us on May 27. We can't wait to share this beautiful day with you.`;
+        `Thank you, <strong>${fname}</strong>! We're so happy you'll be joining us on May 27.<br><br>
+        <span style="display:inline-block;background:#f5c8d4;color:#3a2a2e;padding:.7rem 1.2rem;font-size:.85rem;line-height:1.7;">
+        📧 <strong>Please check your email soon.</strong><br>
+        We'll be sending you your seat details within the next few days.
+        </span>`;
     } else {
       document.getElementById('successTitle').textContent = 'You\'ll be missed 🤍';
       document.querySelector('.success-floral').textContent = '🤍';
